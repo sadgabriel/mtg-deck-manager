@@ -130,12 +130,12 @@ def deck(request, username, deckname):
             cursor.execute(query)
             
         if clicked_card:
-            query = f"SELECT number FROM contain WHERE cardname='{clicked_card}'"
+            query = f"SELECT number FROM contain WHERE cardname='{clicked_card}' AND deckname='{deckname}'"
             cursor.execute(query)
             contain = cursor.fetchone()
             
             if contain and contain[0] < 4:
-                query = f"UPDATE contain SET number={contain[0]+1} WHERE cardname='{clicked_card}'"
+                query = f"UPDATE contain SET number={contain[0]+1} WHERE cardname='{clicked_card}' AND deckname='{deckname}'"
                 cursor.execute(query)
             elif contain is None:
                 query = "INSERT INTO contain (deckname, cardname, number) VALUES (%s, %s, 1)"
@@ -143,15 +143,15 @@ def deck(request, username, deckname):
                 cursor.execute(query, data)
         
         if removed_card:
-            query = f"SELECT number FROM contain WHERE cardname='{removed_card}'"
+            query = f"SELECT number FROM contain WHERE cardname='{removed_card}' AND deckname='{deckname}'"
             cursor.execute(query)
             contain = cursor.fetchone()
             
             if contain[0] > 1:
-                query = f"UPDATE contain SET number={contain[0]-1} WHERE cardname='{removed_card}'"
+                query = f"UPDATE contain SET number={contain[0]-1} WHERE cardname='{removed_card}' AND deckname='{deckname}'"
                 cursor.execute(query)
             else:
-                query = f"DELETE FROM contain WHERE cardname='{removed_card}'"
+                query = f"DELETE FROM contain WHERE cardname='{removed_card}' AND deckname='{deckname}'"
                 cursor.execute(query)
         
         if search_color and search_color != 'reset':
