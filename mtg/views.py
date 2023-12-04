@@ -63,6 +63,9 @@ def home(request, username):
             
         if button_type == 'deck_delete' and selected_deck:
             for deckname in selected_deck:
+                query = f"DELETE FROM contain WHERE deckname='{deckname}'"
+                cursor.execute(query)
+                
                 query = f"DELETE FROM deck WHERE deckname='{deckname}'"
                 cursor.execute(query)
                 
@@ -70,6 +73,9 @@ def home(request, username):
             return redirect(f'/mtg/{username}/home/{selected_deck[0]}')
                 
         if card_delete:
+            query = f"DELETE FROM contain WHERE cardname='{card_delete}'"
+            cursor.execute(query)
+            
             query = f"DELETE FROM card WHERE name='{card_delete}'"
             cursor.execute(query)
         
@@ -126,6 +132,9 @@ def deck(request, username, deckname):
             cursor.execute(query, data)
             
         if card_delete:
+            query = f"DELETE FROM contain WHERE cardname='{card_delete}'"
+            cursor.execute(query)
+            
             query = f"DELETE FROM card WHERE name='{card_delete}'"
             cursor.execute(query)
             
