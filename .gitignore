@@ -1,0 +1,5 @@
+*.pyc
+*~
+__pycahe__
+db.sqlite3
+.DS_Store
